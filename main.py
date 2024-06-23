@@ -27,6 +27,11 @@ ball_speed_y = 5 * random.choice((1, -1))
 player_speed = 0
 opponent_speed = 7
 
+# text variable
+player_score = 0
+opponent_score = 0
+game_font = pygame.font.Font("freesansbold.ttf", 32)
+
 def ball_restart():
     global ball_speed_x, ball_speed_y
     ball.center = (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
@@ -92,6 +97,12 @@ while run:
     pygame.draw.rect(screen, light_grey, opponent)
     pygame.draw.ellipse(screen, light_grey, ball)
     pygame.draw.aaline(screen, light_grey, (SCREEN_WIDTH / 2, 0), (SCREEN_WIDTH / 2, SCREEN_HEIGHT))
+
+    player_text = game_font.render(f"{player_score}", False, light_grey)
+    screen.blit(player_text,(420, 330))
+
+    opponent_text = game_font.render(f"{opponent_score}", False, light_grey)
+    screen.blit(opponent_text,(360, 330))
 
     pygame.display.flip()
     clock.tick(60)
