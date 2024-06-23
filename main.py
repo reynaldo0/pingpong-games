@@ -34,6 +34,10 @@ opponent_score = 0
 game_font = pygame.font.Font("freesansbold.ttf", 32)
 start_font = pygame.font.Font("freesansbold.ttf", 100)
 
+# sound effect
+pong_sound = pygame.mixer.Sound("music/pong.ogg")
+score_sound = pygame.mixer.Sound("music/score.ogg")
+
 # score timer
 score_time = True
 
@@ -75,17 +79,23 @@ def ball_animation():
     ball.y += ball_speed_y
 
     if ball.top <= 0 or ball.bottom >= SCREEN_HEIGHT:
+        pygame.mixer.Sound.play(pong_sound)
         ball_speed_y *= -1
 
+    # player score 
     if ball.left <= 0:
+        pygame.mixer.Sound.play(score_sound)
         player_score += 1
         score_time = pygame.time.get_ticks()
     
+    # ai score
     if ball.right >= SCREEN_WIDTH:
+        pygame.mixer.Sound.play(score_sound)
         opponent_score += 1
         score_time = pygame.time.get_ticks()
 
     if ball.colliderect(player) and ball_speed_x > 0:
+        pygame.mixer.Sound.play(pong_sound)
         if abs(ball.right - player.left) < 10:
             ball_speed_x *= -1
         elif abs(ball.bottom - player.top) < 10 and ball_speed_y > 0:
@@ -94,6 +104,7 @@ def ball_animation():
             ball_speed_y *= -1
 
     if ball.colliderect(opponent) and ball_speed_x < 0:
+        pygame.mixer.Sound.play(pong_sound)
         if abs(ball.left - opponent.right) < 10:
             ball_speed_x *= -1
         elif abs(ball.bottom - opponent.top) < 10 and ball_speed_y > 0:
