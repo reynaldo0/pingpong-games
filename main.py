@@ -32,14 +32,24 @@ player_score = 0
 opponent_score = 0
 game_font = pygame.font.Font("freesansbold.ttf", 32)
 
+# score timer
+score_time = None
+
 def ball_start():
-    global ball_speed_x, ball_speed_y
+    global ball_speed_x, ball_speed_y, score_time
+
+    current_time = pygame.time.get_ticks()
     ball.center = (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
-    ball_speed_y *= random.choice((1, -1))
-    ball_speed_x *= random.choice((1, -1))
+
+    if current_time - score_time < 2100:
+        ball_speed_x, ball_speed_y = 0, 0 
+    else:
+        ball_speed_y = 7 * random.choice((1, -1))
+        ball_speed_x = 7 * random.choice((1, -1))
+        score_time = None
 
 def ball_animation():
-    global ball_speed_x, ball_speed_y, player_score, opponent_score
+    global ball_speed_x, ball_speed_y, player_score, opponent_score, score_time
     
     ball.x += ball_speed_x
     ball.y += ball_speed_y
@@ -49,11 +59,11 @@ def ball_animation():
 
     if ball.left <= 0:
         player_score += 1
-        ball_start()
+        score_time = pygame.time.get_ticks()
     
     if ball.right >= SCREEN_WIDTH:
-        ball_start()
         opponent_score += 1
+        score_time = pygame.time.get_ticks()
 
     if ball.colliderect(player) or ball.colliderect(opponent):
         ball_speed_x *= -1
@@ -104,6 +114,9 @@ while run:
     pygame.draw.ellipse(screen, light_grey, ball)
     pygame.draw.aaline(screen, light_grey, (SCREEN_WIDTH / 2, 0), (SCREEN_WIDTH / 2, SCREEN_HEIGHT))
 
+    if score_time:
+        ball_start()
+        
     player_text = game_font.render(f"{player_score}", False, light_grey)
     screen.blit(player_text,(420, 330))
 
