@@ -21,6 +21,16 @@ def player_animation():
         player.top = 0
     if player.bottom >= SCREEN_HEIGHT:
         player.bottom = SCREEN_HEIGHT
+
+def opponent_ai():
+    if opponent.top < ball.y:
+        opponent.top += opponent_speed
+    if opponent.bottom > ball.y:
+        opponent.bottom -= opponent_speed
+    if opponent.top <= 0:
+        opponent.top = 0
+    if opponent.bottom >= SCREEN_HEIGHT:
+        opponent.bottom = SCREEN_HEIGHT
 # General setup
 pygame.init()
 clock = pygame.time.Clock()
@@ -44,6 +54,7 @@ opponent = pygame.Rect(10, SCREEN_HEIGHT / 2 - 70, 10, 140)
 ball_speed_x = 7
 ball_speed_y = 7
 player_speed = 0
+opponent_speed = 7
 
 run = True
 while run:
@@ -66,6 +77,7 @@ while run:
     # Game logic
     ball_animation()
     player_animation()
+    opponent_ai()
 
     screen.fill(bg_color)
     pygame.draw.rect(screen, light_grey, player)
