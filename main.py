@@ -17,7 +17,7 @@ light_grey = (200, 200, 200)
 bg_color = pygame.Color('grey12')
 
 # Game Rectangles
-ball = pygame.Rect(SCREEN_WIDTH / 2 - 15, SCREEN_HEIGHT / 2 - 15, 30, 30)
+ball = pygame.Rect(SCREEN_WIDTH / 2 - 15, SCREEN_HEIGHT / 2 - 15, 20, 20)
 player = pygame.Rect(SCREEN_WIDTH - 20, SCREEN_HEIGHT / 2 - 70, 10, 140)
 opponent = pygame.Rect(10, SCREEN_HEIGHT / 2 - 70, 10, 140)
 
@@ -32,22 +32,28 @@ player_score = 0
 opponent_score = 0
 game_font = pygame.font.Font("freesansbold.ttf", 32)
 
-def ball_restart():
+def ball_start():
     global ball_speed_x, ball_speed_y
     ball.center = (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     ball_speed_y *= random.choice((1, -1))
     ball_speed_x *= random.choice((1, -1))
 
 def ball_animation():
-    global ball_speed_x, ball_speed_y
+    global ball_speed_x, ball_speed_y, player_score, opponent_score
     
     ball.x += ball_speed_x
     ball.y += ball_speed_y
 
     if ball.top <= 0 or ball.bottom >= SCREEN_HEIGHT:
         ball_speed_y *= -1
-    if ball.left <= 0 or ball.right >= SCREEN_WIDTH:
-        ball_restart()
+
+    if ball.left <= 0:
+        player_score += 1
+        ball_start()
+    
+    if ball.right >= SCREEN_WIDTH:
+        ball_start()
+        opponent_score += 1
 
     if ball.colliderect(player) or ball.colliderect(opponent):
         ball_speed_x *= -1
