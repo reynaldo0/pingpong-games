@@ -15,6 +15,12 @@ def ball_animation():
     if ball.colliderect(player) or ball.colliderect(opponent):
         ball_speed_x *= -1
 
+def player_animation():
+    player.y += player_speed
+    if player.top <= 0:
+        player.top = 0
+    if player.bottom >= SCREEN_HEIGHT:
+        player.bottom = SCREEN_HEIGHT
 # General setup
 pygame.init()
 clock = pygame.time.Clock()
@@ -59,7 +65,7 @@ while run:
 
     # Game logic
     ball_animation()
-    player.y += player_speed
+    player_animation()
 
     screen.fill(bg_color)
     pygame.draw.rect(screen, light_grey, player)
