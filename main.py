@@ -13,8 +13,9 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Pong')
 
 # Colors
-light_grey = (200, 200, 200)
+BLUE_COLOR = (55, 255, 255)
 bg_color = pygame.Color('grey12')
+BLACK_COLOR = (0, 0, 0)
 
 # Game Rectangles
 ball = pygame.Rect(SCREEN_WIDTH / 2 - 15, SCREEN_HEIGHT / 2 - 15, 20, 20)
@@ -31,27 +32,34 @@ opponent_speed = 7
 player_score = 0
 opponent_score = 0
 game_font = pygame.font.Font("freesansbold.ttf", 32)
+start_font = pygame.font.Font("freesansbold.ttf", 100)
 
 # score timer
-score_time = None
+score_time = True
 
 def ball_start():
     global ball_speed_x, ball_speed_y, score_time
 
     current_time = pygame.time.get_ticks()
     ball.center = (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    countdown_pos = (SCREEN_WIDTH / 2 - 5, SCREEN_HEIGHT / 2 - 200)
 
     if current_time - score_time < 700:
-        num3_time = game_font.render('3', False, light_grey)
-        screen.blit(num3_time,(SCREEN_WIDTH / 2 - 10, SCREEN_HEIGHT / 2 + 20))
+        pygame.draw.circle(screen, BLUE_COLOR, countdown_pos, 50)
+        num3_time = start_font.render('3', False, BLACK_COLOR)
+        screen.blit(num3_time, num3_time.get_rect(center=countdown_pos))
 
     if 700 < current_time - score_time < 1400:
-        num2_time = game_font.render('2', False, light_grey)
-        screen.blit(num2_time,(SCREEN_WIDTH / 2 - 10, SCREEN_HEIGHT / 2 + 20))
+        pygame.draw.circle(screen, BLUE_COLOR, countdown_pos, 50)
+        num2_time = start_font.render('2', False, BLACK_COLOR)
+        screen.blit(num2_time, num2_time.get_rect(center=countdown_pos))
+
 
     if 1400 < current_time - score_time < 2100:
-        num1_time = game_font.render('1', False, light_grey)
-        screen.blit(num1_time,(SCREEN_WIDTH / 2 - 10, SCREEN_HEIGHT / 2 + 20))
+        pygame.draw.circle(screen, BLUE_COLOR, countdown_pos, 50)
+        num1_time = start_font.render('1', False, BLACK_COLOR)
+        screen.blit(num1_time, num1_time.get_rect(center=countdown_pos))
+
 
     if current_time - score_time < 2100:
         ball_speed_x, ball_speed_y = 0, 0 
@@ -121,18 +129,18 @@ while run:
     opponent_ai()
 
     screen.fill(bg_color)
-    pygame.draw.rect(screen, light_grey, player)
-    pygame.draw.rect(screen, light_grey, opponent)
-    pygame.draw.ellipse(screen, light_grey, ball)
-    pygame.draw.aaline(screen, light_grey, (SCREEN_WIDTH / 2, 0), (SCREEN_WIDTH / 2, SCREEN_HEIGHT))
+    pygame.draw.rect(screen, BLUE_COLOR, player)
+    pygame.draw.rect(screen, BLUE_COLOR, opponent)
+    pygame.draw.ellipse(screen, BLUE_COLOR, ball)
+    pygame.draw.aaline(screen, BLUE_COLOR, (SCREEN_WIDTH / 2, 0), (SCREEN_WIDTH / 2, SCREEN_HEIGHT))
 
     if score_time:
         ball_start()
         
-    player_text = game_font.render(f"{player_score}", False, light_grey)
+    player_text = game_font.render(f"{player_score}", False, BLUE_COLOR)
     screen.blit(player_text,(420, 330))
 
-    opponent_text = game_font.render(f"{opponent_score}", False, light_grey)
+    opponent_text = game_font.render(f"{opponent_score}", False, BLUE_COLOR)
     screen.blit(opponent_text,(360, 330))
 
     pygame.display.flip()
