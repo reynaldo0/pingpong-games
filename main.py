@@ -1,5 +1,6 @@
 import pygame
 import sys
+import random
 
 # General setup
 pygame.init()
@@ -21,13 +22,16 @@ player = pygame.Rect(SCREEN_WIDTH - 20, SCREEN_HEIGHT / 2 - 70, 10, 140)
 opponent = pygame.Rect(10, SCREEN_HEIGHT / 2 - 70, 10, 140)
 
 # Game Variables
-ball_speed_x = 7
-ball_speed_y = 7
+ball_speed_x = 5 * random.choice((1, -1))
+ball_speed_y = 5 * random.choice((1, -1))
 player_speed = 0
 opponent_speed = 7
 
 def ball_restart():
+    global ball_speed_x, ball_speed_y
     ball.center = (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    ball_speed_y *= random.choice((1, -1))
+    ball_speed_x *= random.choice((1, -1))
 
 def ball_animation():
     global ball_speed_x, ball_speed_y
