@@ -26,6 +26,9 @@ ball_speed_y = 7
 player_speed = 0
 opponent_speed = 7
 
+def ball_restart():
+    ball.center = (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
 def ball_animation():
     global ball_speed_x, ball_speed_y
     
@@ -56,7 +59,7 @@ def opponent_ai():
         opponent.top = 0
     if opponent.bottom >= SCREEN_HEIGHT:
         opponent.bottom = SCREEN_HEIGHT
-        
+
 run = True
 while run:
     for event in pygame.event.get():
